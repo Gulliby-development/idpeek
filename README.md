@@ -18,6 +18,8 @@ Run the CLI through Cargo with:
 
 Replace `ARGS` with the desired command and its arguments.
 
+The release build also contains a second executable, `idsort`: `idsort ARGS` does the same as `idpeek sort ARGS`, so a pipeline can end with `idsort -` to put the IDs it reads in creation order.
+
 ## Usage
 
 The four commands are `info` to inspect IDs, `span` to compare two creation times, `sort` to order IDs by creation time and `bound` to make a minimum or maximum ID for a time.
