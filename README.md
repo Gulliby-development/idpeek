@@ -121,6 +121,8 @@ With `--desc`, the same IDs print in descending order, with equal-time IDs retai
 
 Identifiers are recognized by their shape. UUIDs may be canonical or compact; their version and variant are reported, and versions 1, 6 and 7 carry a decoded time. ULIDs use Crockford base32 and include a timestamp and random field. KSUIDs use base62 and include a timestamp and payload. ObjectIds contain a Unix-seconds timestamp, random bytes and a counter. Snowflake IDs contain a timestamp, worker and sequence.
 
+A UUID may also be written inside braces, as in `{017F22E2-79B0-7CC3-98C4-DC0C0C07398F}`, or after the prefix `urn:uuid:` (in any case), as in `urn:uuid:017F22E2-79B0-7CC3-98C4-DC0C0C07398F`; both forms, compact or canonical inside, decode like the bare UUID and are printed as typed. Any other wrapper is an unknown ID format.
+
 For Snowflake decoding, the default epoch is Twitter's. Use `--epoch discord`, `--epoch unix` or `--epoch EPOCH` to select Discord, Unix or a numeric millisecond epoch. In `info` and `sort`, a `-` operand reads IDs from standard input, one per line.
 
 ## Bounds
