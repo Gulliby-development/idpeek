@@ -17,10 +17,13 @@ pub struct Decoded {
 /// Decode an identifier according to its character count and selected epoch.
 ///
 /// Length selects the family before format validation. This means malformed
-/// values of a recognized length receive a family-specific error.
+/// values of a recognized length receive a family-specific error. A UUID may
+/// also be wrapped in braces (`{...}`) or follow the prefix `urn:uuid:`; the
+/// diagnostics still show the input as it was given.
 pub fn decode(input: &str, epoch_ms: i64) -> Result<Decoded, String> {
-    match input.chars().count() {
-        32 | 36 => uuid::decode(input).ok_or_else(|| invalid("UUID", input)),
+    let bare = unwrap_uuid(input).unwrap_or(input);
+    match bare.chars().count() {
+        32 | 36 => uuid::decode(bare).ok_or_else(|| invalid("UUID", input)),
         24 => objectid::decode(input).ok_or_else(|| invalid("ObjectId", input)),
         26 => ulid::decode(input).ok_or_else(|| invalid("ULID", input)),
         27 => ksuid::decode(input)
@@ -66,6 +69,19 @@ pub fn bound(kind: &str, milliseconds: i64, max: bool, epoch_ms: i64) -> Result<
     };
 
     result.ok_or_else(|| format!("time is out of range for {kind}"))
+}
+
+/// The UUID text inside braces or after `urn:uuid:` (any case), when it has the
+/// 32 or 36 characters of a compact or canonical UUID.
+fn unwrap_uuid(input: &str) -> Option<&str> {
+    let inner = if let Some(rest) = input.strip_prefix('{') {
+        rest.strip_suffix('}')?
+    } else if input.get(..9)?.eq_ignore_ascii_case("urn:uuid:") {
+        input.get(9..)?
+    } else {
+        return None;
+    };
+    matches!(inner.chars().count(), 32 | 36).then_some(inner)
 }
 
 fn invalid(kind: &str, input: &str) -> String {
