@@ -29,7 +29,7 @@ The command forms are:
 ```text
 usage: idpeek info [--epoch EPOCH] ID...
        idpeek span [--epoch EPOCH] ID1 ID2
-       idpeek sort [--epoch EPOCH] [--desc] ID...
+       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...
        idpeek bound [--epoch EPOCH] [--max] KIND TIME
 ```
 
@@ -116,6 +116,15 @@ With `--desc`, the same IDs print in descending order, with equal-time IDs retai
 507f1f77bcf86cd799439011
 507f1f77bcf86cd799439012
 ```
+
+With `--unique`, an ID whose text repeats an earlier operand is dropped, so each ID prints once, in the place of its first copy among its time ties. `idpeek sort --unique 507f1f77bcf86cd799439012 01ARZ3NDEKTSV4RRFFQ69G5FAV 507f1f77bcf86cd799439012` prints:
+
+```text
+507f1f77bcf86cd799439012
+01ARZ3NDEKTSV4RRFFQ69G5FAV
+```
+
+`--unique` compares the text as typed, so `{UUID}` and the bare UUID are two IDs. It is an option of `sort` only and takes no value.
 
 ## Identifiers
 
