@@ -350,6 +350,7 @@ fn epoch_option_is_valid_after_operands() {
             command: Command::Sort {
                 ids: vec!["first".to_owned(), "second".to_owned()],
                 descending: false,
+                unique: false,
             },
             epoch_ms: 0,
         })
@@ -364,6 +365,7 @@ fn sort_records_descending_flag_after_operands() {
             command: Command::Sort {
                 ids: vec!["first".to_owned(), "second".to_owned()],
                 descending: true,
+                unique: false,
             },
             epoch_ms: TWITTER_EPOCH_MS,
         })

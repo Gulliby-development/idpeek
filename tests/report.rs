@@ -9,7 +9,7 @@ fn usage_is_the_exact_four_line_lf_terminated_message() {
 
     assert_eq!(
         output,
-        b"usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n"
+        b"usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n"
     );
 }
 

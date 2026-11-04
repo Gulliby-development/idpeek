@@ -1,4 +1,5 @@
 use crate::{args, calendar, detect, report, text};
+use std::collections::HashSet;
 use std::io::{Read, Write};
 
 /// Runs idpeek with caller-supplied arguments and streams, returning its exit code.
@@ -28,9 +29,19 @@ pub fn run(
         args::Command::Span { first, second } => {
             run_span(&first, &second, parsed.epoch_ms, stdout, stderr)
         }
-        args::Command::Sort { ids, descending } => {
-            run_sort(&ids, descending, parsed.epoch_ms, stdin, stdout, stderr)
-        }
+        args::Command::Sort {
+            ids,
+            descending,
+            unique,
+        } => run_sort(
+            &ids,
+            descending,
+            unique,
+            parsed.epoch_ms,
+            stdin,
+            stdout,
+            stderr,
+        ),
         args::Command::Bound { kind, time, max } => {
             run_bound(&kind, time, max, parsed.epoch_ms, stdout, stderr)
         }
@@ -104,6 +115,7 @@ fn run_span(
 fn run_sort(
     ids: &[String],
     descending: bool,
+    unique: bool,
     epoch_ms: i64,
     stdin: &mut dyn Read,
     mut stdout: &mut dyn Write,
@@ -118,7 +130,11 @@ fn run_sort(
     };
 
     let mut timed_ids = Vec::with_capacity(expanded.len());
+    let mut seen = HashSet::new();
     for id in expanded {
+        if unique && !seen.insert(id.clone()) {
+            continue;
+        }
         match time_for_id(&id, epoch_ms) {
             Ok(milliseconds) => timed_ids.push((milliseconds, id)),
             Err(message) => {

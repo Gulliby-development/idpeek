@@ -41,7 +41,7 @@ fn help_prints_the_exact_four_usage_lines() {
         &["--help"],
         b"",
         0,
-        "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n",
+        "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n",
         "",
     );
 }

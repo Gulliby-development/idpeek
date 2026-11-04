@@ -4,7 +4,7 @@ use crate::{calendar, detect::Decoded};
 use std::io::{self, Write};
 
 /// Usage text shared by help and command-line documentation checks.
-pub const USAGE: &str = "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n";
+pub const USAGE: &str = "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n";
 
 /// Write the four-line usage message.
 pub fn write_usage<W: Write>(writer: &mut W) -> io::Result<()> {

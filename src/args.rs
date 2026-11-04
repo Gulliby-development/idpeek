@@ -19,7 +19,11 @@ pub enum Command {
     /// Compare the creation times of two identifiers.
     Span { first: String, second: String },
     /// Sort identifiers by their creation times.
-    Sort { ids: Vec<String>, descending: bool },
+    Sort {
+        ids: Vec<String>,
+        descending: bool,
+        unique: bool,
+    },
     /// Construct a timestamp bound for one identifier family.
     Bound {
         kind: String,
@@ -58,6 +62,7 @@ pub fn parse(args: &[String]) -> Result<ParsedArgs, String> {
     let mut epoch_text = None;
     let mut max = false;
     let mut descending = false;
+    let mut unique = false;
     let mut index = 1;
 
     while index < args.len() {
@@ -76,6 +81,8 @@ pub fn parse(args: &[String]) -> Result<ParsedArgs, String> {
             max = true;
         } else if argument == "--desc" && command_name == "sort" {
             descending = true;
+        } else if argument == "--unique" && command_name == "sort" {
+            unique = true;
         } else if argument.starts_with('-') && argument != "-" {
             return Err(format!("unknown option {}", text::show(argument)));
         } else {
@@ -113,6 +120,7 @@ pub fn parse(args: &[String]) -> Result<ParsedArgs, String> {
             Command::Sort {
                 ids: operands,
                 descending,
+                unique,
             }
         }
         "bound" => {

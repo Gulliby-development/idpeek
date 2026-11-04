@@ -47,7 +47,7 @@ fn usage_block_matches_the_four_reference_lines() {
     let document = readme();
 
     assert!(document.contains(
-        "```text\nusage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n```"
+        "```text\nusage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME\n```"
     ));
 }
 
@@ -141,7 +141,7 @@ fn fenced_outputs_are_only_the_supplied_usage_and_reference_examples() {
     let document = readme();
 
     let expected = vec![
-        "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME",
+        "usage: idpeek info [--epoch EPOCH] ID...\n       idpeek span [--epoch EPOCH] ID1 ID2\n       idpeek sort [--epoch EPOCH] [--desc] [--unique] ID...\n       idpeek bound [--epoch EPOCH] [--max] KIND TIME",
         "01ARZ3NDEKTSV4RRFFQ69G5FAV\n  kind      ulid\n  time      2016-07-30T23:54:10.259Z\n  random    d6764c61efb99302bd5b\n0ujtsYcgvSTl8PAuAdqWYSMnLOv\n  kind      ksuid\n  time      2017-10-10T04:00:47.000Z\n  payload   b5a1cd34b5f99d1154fb6853345c9735\n507f1f77bcf86cd799439011\n  kind      objectid\n  time      2012-10-17T21:13:27.000Z\n  random    bcf86cd799\n  counter   4427793",
         "C232AB00-9414-11EC-B3C8-9F6BDECED846\n  kind      uuid\n  version   1 (time and node)\n  variant   rfc4122\n  time      2022-02-22T19:22:22.000Z\n  clock     13256\n  node      9f6bdeced846\n017F22E2-79B0-7CC3-98C4-DC0C0C07398F\n  kind      uuid\n  version   7 (unix time and random)\n  variant   rfc4122\n  time      2022-02-22T19:22:22.000Z",
         "175928847299117063\n  kind      snowflake\n  epoch     1420070400000\n  time      2016-04-30T11:18:25.796Z\n  worker    32\n  sequence  7",
@@ -149,6 +149,7 @@ fn fenced_outputs_are_only_the_supplied_usage_and_reference_examples() {
         "the second is 1382d 02:40:43.259 later than the first",
         "507f1f77bcf86cd799439011\n507f1f77bcf86cd799439012\n01ARZ3NDEKTSV4RRFFQ69G5FAV\n0ujtsYcgvSTl8PAuAdqWYSMnLOv\n017F22E2-79B0-7CC3-98C4-DC0C0C07398F",
         "017F22E2-79B0-7CC3-98C4-DC0C0C07398F\n0ujtsYcgvSTl8PAuAdqWYSMnLOv\n01ARZ3NDEKTSV4RRFFQ69G5FAV\n507f1f77bcf86cd799439011\n507f1f77bcf86cd799439012",
+        "507f1f77bcf86cd799439012\n01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "cargo fmt --check\ncargo clippy -- -D warnings\ncargo test",
     ];
 
